@@ -15,7 +15,7 @@ A modern, responsive web-based music player inspired by Spotify's sleek design a
 
 Clone the repository
 bash
-git clone https://github.com/yourusername/spotify-music-player.git
+git clone https://github.com/Muskantyagi2/spotify-music-player.git
 
 Navigate to project directory
 bash
