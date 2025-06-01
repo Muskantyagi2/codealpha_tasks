@@ -24,3 +24,14 @@ cd spotify-music-player
 Open in browser
 bash
 open index.html
+
+#This repository contain code for CALCULATOR
+A sleek, responsive calculator with a warm coral color scheme and smooth animations. Built with vanilla HTML, CSS, and JavaScript.
+![image](https://github.com/user-attachments/assets/c2056dfb-09b0-46a8-8497-f1c70d5a67bb)
+
+Quick Start
+
+Clone or download this repository
+Open index.html in your web browser
+Start calculating! Use mouse or keyboard (0-9, +, -, *, /, Enter, Escape)
+
