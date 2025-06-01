@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #E5A081 0%, #D4956B 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: #4A3529;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 320px;
+            width: 100%;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .display {
+            background: transparent;
+            color: white;
+            padding: 25px 20px;
+            margin-bottom: 20px;
+            text-align: right;
+            font-size: 3em;
+            font-weight: 300;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            border-radius: 15px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 50%;
+            width: 65px;
+            height: 65px;
+            font-size: 1.3em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.2),
+                0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 12px rgba(0, 0, 0, 0.3),
+                0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.2),
+                0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Function buttons (AC, DEL, %) - darker coral */
+        .btn.function {
+            background: #B5876A;
+            color: #2C1A12;
+        }
+
+        .btn.function:hover {
+            background: #A67C5F;
+        }
+
+        /* Number buttons - light coral/peach */
+        .btn.number {
+            background: #E5A081;
+            color: #2C1A12;
+        }
+
+        .btn.number:hover {
+            background: #D4956B;
+        }
+
+        /* Operator buttons - bright coral */
+        .btn.operator {
+            background: #F2B89A;
+            color: #2C1A12;
+        }
+
+        .btn.operator:hover {
+            background: #E8A582;
+        }
+
+        .btn.operator.active {
+            background: #FF6B35;
+            color: white;
+        }
+
+        /* Zero button spans 2 columns */
+        .btn.zero {
+            grid-column: span 2;
+            border-radius: 35px;
+            width: auto;
+            justify-content: flex-start;
+            padding-left: 25px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .calculator {
+                padding: 20px;
+                margin: 10px;
+                max-width: 280px;
+            }
+            
+            .display {
+                font-size: 2.5em;
+                padding: 20px 15px;
+                min-height: 70px;
+            }
+            
+            .btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.1em;
+            }
+            
+            .btn.zero {
+                border-radius: 30px;
+                padding-left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="btn function" onclick="clearDisplay()" data-key="Escape">AC</button>
+            <button class="btn function" onclick="deleteLast()" data-key="Backspace">DEL</button>
+            <button class="btn function" onclick="inputOperator('%')" data-key="%">%</button>
+            <button class="btn operator" onclick="inputOperator('/')" data-key="/">÷</button>
+            
+            <button class="btn number" onclick="inputNumber('7')" data-key="7">7</button>
+            <button class="btn number" onclick="inputNumber('8')" data-key="8">8</button>
+            <button class="btn number" onclick="inputNumber('9')" data-key="9">9</button>
+            <button class="btn operator" onclick="inputOperator('*')" data-key="*">×</button>
+            
+            <button class="btn number" onclick="inputNumber('4')" data-key="4">4</button>
+            <button class="btn number" onclick="inputNumber('5')" data-key="5">5</button>
+            <button class="btn number" onclick="inputNumber('6')" data-key="6">6</button>
+            <button class="btn operator" onclick="inputOperator('-')" data-key="-">−</button>
+            
+            <button class="btn number" onclick="inputNumber('1')" data-key="1">1</button>
+            <button class="btn number" onclick="inputNumber('2')" data-key="2">2</button>
+            <button class="btn number" onclick="inputNumber('3')" data-key="3">3</button>
+            <button class="btn operator" onclick="inputOperator('+')" data-key="+">+</button>
+            
+            <button class="btn number zero" onclick="inputNumber('0')" data-key="0">0</button>
+            <button class="btn number" onclick="inputDecimal()" data-key=".">.</button>
+            <button class="btn operator" onclick="calculate()" data-key="Enter">=</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentInput = '0';
+        let operator = null;
+        let firstOperand = null;
+        let waitingForNewInput = false;
+        let lastOperatorButton = null;
+
+        function updateDisplay() {
+            // Format large numbers
+            let displayValue = currentInput;
+            if (displayValue.length > 9) {
+                displayValue = parseFloat(displayValue).toExponential(3);
+            }
+            display.textContent = displayValue;
+        }
+
+        function inputNumber(num) {
+            if (waitingForNewInput) {
+                currentInput = num;
+                waitingForNewInput = false;
+            } else {
+                currentInput = currentInput === '0' ? num : currentInput + num;
+            }
+            updateDisplay();
+            clearOperatorHighlight();
+        }
+
+        function inputDecimal() {
+            if (waitingForNewInput) {
+                currentInput = '0.';
+                waitingForNewInput = false;
+            } else if (currentInput.indexOf('.') === -1) {
+                currentInput += '.';
+            }
+            updateDisplay();
+            clearOperatorHighlight();
+        }
+
+        function inputOperator(nextOperator) {
+            const inputValue = parseFloat(currentInput);
+
+            // Handle percentage
+            if (nextOperator === '%') {
+                currentInput = String(inputValue / 100);
+                updateDisplay();
+                return;
+            }
+
+            if (firstOperand === null) {
+                firstOperand = inputValue;
+            } else if (operator && !waitingForNewInput) {
+                const currentValue = firstOperand || 0;
+                const newValue = performCalculation[operator](currentValue, inputValue);
+
+                currentInput = String(newValue);
+                firstOperand = newValue;
+                updateDisplay();
+            }
+
+            waitingForNewInput = true;
+            operator = nextOperator;
+            highlightOperator(nextOperator);
+        }
+
+        function calculate() {
+            const inputValue = parseFloat(currentInput);
+
+            if (firstOperand !== null && operator) {
+                const newValue = performCalculation[operator](firstOperand, inputValue);
+                currentInput = String(newValue);
+                firstOperand = null;
+                operator = null;
+                waitingForNewInput = true;
+                updateDisplay();
+                clearOperatorHighlight();
+            }
+        }
+
+        const performCalculation = {
+            '/': (firstOperand, secondOperand) => {
+                if (secondOperand === 0) {
+                    return 'Error';
+                }
+                return firstOperand / secondOperand;
+            },
+            '*': (firstOperand, secondOperand) => firstOperand * secondOperand,
+            '+': (firstOperand, secondOperand) => firstOperand + secondOperand,
+            '-': (firstOperand, secondOperand) => firstOperand - secondOperand,
+        };
+
+        function clearDisplay() {
+            currentInput = '0';
+            firstOperand = null;
+            operator = null;
+            waitingForNewInput = false;
+            updateDisplay();
+            clearOperatorHighlight();
+        }
+
+        function deleteLast() {
+            if (currentInput.length > 1 && currentInput !== 'Error') {
+                currentInput = currentInput.slice(0, -1);
+            } else {
+                currentInput = '0';
+            }
+            updateDisplay();
+        }
+
+        function highlightOperator(op) {
+            clearOperatorHighlight();
+            const operatorMap = {
+                '/': '÷',
+                '*': '×', 
+                '-': '−',
+                '+': '+'
+            };
+            
+            const buttons = document.querySelectorAll('.btn.operator');
+            buttons.forEach(btn => {
+                if (btn.textContent === operatorMap[op]) {
+                    btn.classList.add('active');
+                    lastOperatorButton = btn;
+                }
+            });
+        }
+
+        function clearOperatorHighlight() {
+            if (lastOperatorButton) {
+                lastOperatorButton.classList.remove('active');
+                lastOperatorButton = null;
+            }
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+            
+            // Find and highlight the pressed button
+            const button = document.querySelector(`[data-key="${key}"]`);
+            if (button) {
+                button.style.transform = 'translateY(0)';
+                button.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1)';
+                
+                setTimeout(() => {
+                    button.style.transform = '';
+                    button.style.boxShadow = '';
+                }, 150);
+            }
+
+            if (key >= '0' && key <= '9') {
+                inputNumber(key);
+            } else if (key === '.') {
+                inputDecimal();
+            } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+                inputOperator(key);
+            } else if (key === '%') {
+                inputOperator('%');
+            } else if (key === 'Enter' || key === '=') {
+                event.preventDefault();
+                calculate();
+            } else if (key === 'Escape' || key.toLowerCase() === 'c') {
+                clearDisplay();
+            } else if (key === 'Backspace') {
+                event.preventDefault();
+                deleteLast();
+            }
+        });
+
+        // Initialize
+        updateDisplay();
+    </script>
+</body>
+</html>
