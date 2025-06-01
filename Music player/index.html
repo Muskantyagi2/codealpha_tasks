@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Music Player</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="player-container">
+        <div class="album-art">
+            <div class="spotify-logo">♫</div>
+        </div>
+
+        <div class="song-info">
+            <div class="song-title" id="songTitle">Choose a song</div>
+            <div class="song-artist" id="songArtist">Select from playlist</div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="time-info">
+                <span id="currentTime">0:00</span>
+                <span id="totalTime">0:00</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn prev" id="prevBtn">⏮</button>
+            <button class="control-btn play-pause" id="playPauseBtn">▶</button>
+            <button class="control-btn next" id="nextBtn">⏭</button>
+        </div>
+
+        <div class="volume-section">
+            <div class="volume-icon">🔊</div>
+            <div class="volume-bar" id="volumeBar">
+                <div class="volume-fill" id="volumeFill"></div>
+            </div>
+        </div>
+
+        <div class="playlist">
+            <div class="playlist-title">Queue</div>
+            <div id="playlistItems"></div>
+        </div>
+
+        <audio id="audioPlayer"></audio>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
